@@ -3,7 +3,7 @@ MAINTAINER Christian Lück <christian@lueck.tv>
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y \
   nginx git supervisor php5-fpm php5-cli php5-curl php5-gd php5-json \
-  php5-pgsql php5-mysql && apt-get clean
+  php5-pgsql php5-mysql php5-mcrypt && apt-get clean
 
 # add ttrss as the only nginx site
 ADD ttrss.nginx.conf /etc/nginx/sites-available/ttrss
@@ -16,6 +16,9 @@ WORKDIR /var/www
 RUN cp config.php-dist config.php
 RUN sed -i -e "/'SELF_URL_PATH'/s/ '.*'/ 'http:\/\/localhost\/'/" config.php
 RUN chown www-data:www-data -R /var/www
+
+# enable mcrypt php module
+RUN php5enmod mcrypt
 
 # expose only nginx HTTP port
 EXPOSE 80
