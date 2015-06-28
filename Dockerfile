@@ -20,6 +20,18 @@ RUN sed -i -e "/'SELF_URL_PATH'/s/ '.*'/ 'http:\/\/localhost\/'/" config.php
 RUN git clone https://github.com/naeramarth7/clean-greader /var/www/themes/clean-greader
 RUN ln -s /var/www/themes/clean-greader/clean-greader.css /var/www/themes/clean-greader.css
 
+# install joschasa plugin package
+RUN apt-get install -y wget unzip && apt-get clean
+RUN cd /var/www/plugins/ && wget -O- https://github.com/Joschasa/Tiny-Tiny-RSS-Plugins/archive/master.tar.gz | \
+	tar -xvz --strip 1
+
+# install reeder theme
+RUN cd /var/www/themes/ && wget -O- https://github.com/tschinz/tt-rss_reeder_theme/archive/master.tar.gz | \
+	tar -xvz --strip 1
+
+# install feediron plugin
+RUN git clone git://github.com/m42e/ttrss_plugin-feediron.git /var/www/plugins/feediron
+
 RUN chown www-data:www-data -R /var/www
 
 # enable mcrypt php module
