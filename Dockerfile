@@ -15,6 +15,11 @@ RUN git clone https://github.com/gothfox/Tiny-Tiny-RSS.git /var/www
 WORKDIR /var/www
 RUN cp config.php-dist config.php
 RUN sed -i -e "/'SELF_URL_PATH'/s/ '.*'/ 'http:\/\/localhost\/'/" config.php
+
+# install greader theme
+RUN git clone https://github.com/naeramarth7/clean-greader /var/www/themes/clean-greader
+RUN ln -s /var/www/themes/clean-greader/clean-greader.css /var/www/themes/clean-greader.css
+
 RUN chown www-data:www-data -R /var/www
 
 # enable mcrypt php module
