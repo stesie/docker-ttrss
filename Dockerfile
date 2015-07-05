@@ -32,6 +32,10 @@ RUN cd /var/www/themes.local/ && wget -O- https://github.com/tschinz/tt-rss_reed
 # install feediron plugin
 RUN git clone git://github.com/m42e/ttrss_plugin-feediron.git /var/www/plugins.local/feediron
 
+# install ttbag plugin
+RUN git clone --recursive git://github.com/stesie/ttbag.git /var/www/plugins.local/ttbag
+RUN sed -e 's/note/&, ttbag/' -i config.php
+
 RUN chown www-data:www-data -R /var/www
 
 # enable mcrypt php module
